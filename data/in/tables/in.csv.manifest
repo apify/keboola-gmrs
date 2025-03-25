@@ -1,0 +1,5 @@
+{
+    "name": "fooBar",
+    "columns": ["place_id", "place_url", "title"],
+    "rows_count": 3
+}
