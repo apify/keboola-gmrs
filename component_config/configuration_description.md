@@ -1,4 +1,4 @@
-The componnet expects an input table with one of the following columns:
+The component expects an input table with one of the following columns:
 - `place_id`: ID of a Google Maps place whose reviews to scrape
 - `place_url`: URL of a Google maps place whose reviews to scrape
 
