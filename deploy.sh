@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-alias docker=podman
 env
 
 # compatibility with travis and bitbucket
