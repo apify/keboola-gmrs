@@ -7,7 +7,6 @@ RUN pip install -r /code/requirements.txt
 COPY /src /code/src/
 COPY /tests /code/tests/
 COPY /scripts /code/scripts/
-COPY /component_config /code/component_config/
 COPY flake8.cfg /code/flake8.cfg
 COPY deploy.sh /code/deploy.sh
 
