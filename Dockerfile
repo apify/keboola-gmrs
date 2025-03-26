@@ -1,5 +1,16 @@
-FROM quay.io/keboola/docker-custom-python:latest
+FROM python:3.13-alpine
+ENV PYTHONIOENCODING utf-8
 
-COPY . /code/
-WORKDIR /data/
-CMD ["python", "-u", "/code/main.py"]
+COPY requirements.txt /code/requirements.txt
+RUN pip install -r /code/requirements.txt
+
+COPY /src /code/src/
+COPY /tests /code/tests/
+COPY /scripts /code/scripts/
+COPY /component_config /code/component_config/
+COPY flake8.cfg /code/flake8.cfg
+COPY deploy.sh /code/deploy.sh
+
+WORKDIR /code/
+
+CMD ["python", "-u", "/code/src/component.py"]
