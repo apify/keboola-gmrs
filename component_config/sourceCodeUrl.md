@@ -1,1 +1,1 @@
-git@github.com:apify/keboola-gmrs.git
+https://github.com/apify/keboola-gmrs.git

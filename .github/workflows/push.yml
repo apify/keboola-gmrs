@@ -5,11 +5,11 @@ env:
   # repository variables:
   KBC_DEVELOPERPORTAL_APP: "apify.ex-google-maps-reviews-scraper"
   KBC_DEVELOPERPORTAL_VENDOR: "apify"
-  DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+  # DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
   KBC_DEVELOPERPORTAL_USERNAME: ${{ vars.KBC_DEVELOPERPORTAL_USERNAME }}
 
   # repository secrets:
-  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }} # recommended for pushing to ECR
+  # DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }} # recommended for pushing to ECR
   KBC_DEVELOPERPORTAL_PASSWORD: ${{ secrets.KBC_DEVELOPERPORTAL_PASSWORD }}
 
   # (Optional) Test KBC project: https://connection.keboola.com/admin/projects/0000
@@ -78,8 +78,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - push_event_info
-    env:
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    # env:
+      # DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -153,8 +153,8 @@ jobs:
       - push_event_info
       - tests
       - tests-kbc
-    env:
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    # env:
+      # DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
