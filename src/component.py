@@ -58,6 +58,9 @@ class Component(ComponentBase):
                     elif row.get('place_url'):
                         start_urls.append({ 'url': row['place_url'] })
 
+        if len(place_ids) == 0 and len(start_urls) == 0:
+            raise Exception('Didn\'t find any place IDs nor URLs')
+
         run_input = {
             'language': params.language,
             'maxReviews': params.maxReviews,
