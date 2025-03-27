@@ -55,7 +55,7 @@ class Component(ComponentBase):
         except Exception as e:
             raise UserException("Failed to get user information with the provided Apify API Token. Make sure the token is set correctly: %s" % e)
 
-        actor_run = actor_client.call(run_input = run_input, wait_secs=0)
+        actor_run = actor_client.start(run_input = run_input)
         if not actor_run:
             raise UserException('Received empty run response. If the error keeps happening, contact Apify support: support@apify.com')
         run_id = actor_run['id']
