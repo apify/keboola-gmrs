@@ -10,7 +10,7 @@ from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
 from configuration import Configuration
-from consts import ACTOR_ID, OUTPUT_COLUMNS
+from consts import ACTOR_ID, OUTPUT_COLUMNS, REQUIRED_PARAMETERS
 
 class Component(ComponentBase):
     """
@@ -29,6 +29,7 @@ class Component(ComponentBase):
 
     def run(self):
         # check for missing configuration parameters
+        self.validate_configuration_parameters(mandatory_params=REQUIRED_PARAMETERS)
         params = Configuration(**self.configuration.parameters)
 
         place_ids, start_urls = self.read_input_table() 

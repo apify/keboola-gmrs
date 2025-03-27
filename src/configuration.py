@@ -19,3 +19,9 @@ class Configuration(BaseModel):
         except ValidationError as e:
             error_messages = [f"{err['loc'][0]}: {err['msg']}" for err in e.errors()]
             raise UserException(f"Validation Error: {', '.join(error_messages)}")
+
+    @field_validator('token')
+    def validate_token(cls, value):
+        if not value:
+            raise UserException('Apify API Token is empty. Please, make sure you set the token correctly')
+        return value
