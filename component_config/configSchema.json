@@ -8,9 +8,9 @@
     ],
     "properties": {
         "#token": {
-            "title": "Apify Token",
+            "title": "Apify API Token",
             "type": "string",
-            "description": "Enter your Apify token to start the actor",
+            "description": "Enter your Apify API Token to start the actor. See the configuration description how to obtain the token.",
             "format": "password"
         },
         "maxReviews": {

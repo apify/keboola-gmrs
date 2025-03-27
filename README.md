@@ -1,84 +1,39 @@
-keboola-gmrs
-=============
+# Keboola Google Maps Reviews Scraper
 
-Description
+## Running locally
 
-**Table of Contents:**
+Create `data` directory by copying `sample-config`:
 
-[TOC]
+```sh
+cp component_config/sample-config data
+```
 
-Functionality Notes
-===================
+Then, in `data/config.json`, replace `<YOUR_APIFY_API_TOKEN>` with your Apify API token. Finally, run the component:
 
-Prerequisites
-=============
+```sh
+KBC_DATADIR=data python src/component.py
+```
 
-Ensure you have the necessary API token, register the application, etc.
+## Deploying from terminal
 
-Features
-========
+you need to set the following environment variables:
+- `KBC_DEVELOPERPORTAL_APP`
+- `KBC_DEVELOPERPORTAL_USERNAME`
+- `KBC_DEVELOPERPORTAL_VENDOR`
+- `KBC_DEVELOPERPORTAL_PASSWORD`
 
-| **Feature**             | **Description**                               |
-|-------------------------|-----------------------------------------------|
-| Generic UI Form         | Dynamic UI form for easy configuration.       |
-| Row-Based Configuration | Allows structuring the configuration in rows. |
-| OAuth                   | OAuth authentication enabled.                 |
-| Incremental Loading     | Fetch data in new increments.                 |
-| Backfill Mode           | Supports seamless backfill setup.             |
-| Date Range Filter       | Specify the date range for data retrieval.    |
+You'll find the values in repo's [secrets](https://github.com/apify/keboola-gmrs/settings/secrets/actions) and [variables](https://github.com/apify/keboola-gmrs/settings/variables/actions).
 
-Supported Endpoints
-===================
+```sh
+APP_IMAGE=keboola.component
+GITHUB_TAG=0.0.4
+docker build -t APP_IMAGE:latest .
 
-If you need additional endpoints, please submit your request to
-[ideas.keboola.com](https://ideas.keboola.com/).
+# Deploy the container
+sh deploy.sh
 
-Configuration
-=============
+# Update compontent's configs and descriptions
+sh scripts/deleloper_portal/update_properties.sh
+```
 
-Param 1
--------
-Details about parameter 1.
-
-Param 2
--------
-Details about parameter 2.
-
-Output
-======
-
-Provides a list of tables, foreign keys, and schema.
-
-Development
------------
-
-To customize the local data folder path, replace the `CUSTOM_FOLDER` placeholder with your desired path in the `docker-compose.yml` file:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    volumes:
-      - ./:/code
-      - ./CUSTOM_FOLDER:/data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Clone this repository, initialize the workspace, and run the component using the following
-commands:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-git clone git@github.com:apify/keboola-gmrs.git keboola_gmrs
-cd keboola_gmrs
-docker-compose build
-docker-compose run --rm dev
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Run the test suite and perform lint checks using this command:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-docker-compose run --rm test
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Integration
-===========
-
-For details about deployment and integration with Keboola, refer to the
-[deployment section of the developer
-documentation](https://developers.keboola.com/extend/component/deployment/).
+Deploying from terminal should not be needed. To deploy a new version, we need to push a new tag to the default branch and GH actions should handle the deployment. TODO: verify GH actions deployment

@@ -10,3 +10,5 @@ Additionally, you can set the following options:
 - sorting: newest, most relevant, highest or lowest rating
 - whether you want to scrape only reviews from Google or from other as well (e.g. Tripadvisor)
 - date of the oldest review - the scraper will scrape only reviews newer than the selected date
+
+In order to start the actor, you need to provide Apify API Token, which you can get in [Apify's Settings](https://console.apify.com/settings/integrations).
