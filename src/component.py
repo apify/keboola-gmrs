@@ -63,12 +63,11 @@ class Component(ComponentBase):
 
         run_client = apify_client.run(run_id)
         run_client.wait_for_finish()
+        logging.info('Run has finished')
 
-        dataset_client = apify_client.dataset(actor_run['defaultDatasetId'])
-        reviews = dataset_client.list_items().items
-        logging.info('Run has finished successfully, it scraped %d reviews' % len(reviews))
+        dataset_id = actor_run['defaultDatasetId']
 
-        self.write_output_table(reviews)
+        self.write_output_table(apify_client, dataset_id)
 
 
     """
@@ -106,22 +105,36 @@ class Component(ComponentBase):
         return place_ids, start_urls
 
 
-    def write_output_table(self, reviews):
+    """
+        Downloads items from `dataset_id` in batches and stores them in `output.csv` output table
+    """
+    def write_output_table(self, apify_client: ApifyClient, dataset_id: str):
         output_table = self.create_out_table_definition('output.csv', incremental=True)
         for col in OUTPUT_COLUMNS:
             output_table.add_column(col)
         self.write_manifest(output_table)
 
+        dataset_client = apify_client.dataset(dataset_id)
+        dataset = dataset_client.get()
+        if not dataset:
+            return
+
+        item_count = dataset['itemCount']
+        logging.info('Storing %d items from dataset (id: "%s") to CSV output table' % (item_count, dataset_id))
+
+        limit = 2_000
+
         with open(output_table.full_path, 'w') as file:
             csv_writer = csv.DictWriter(file, OUTPUT_COLUMNS)
-            rows = []
-            for review in reviews:
-                row = {}
-                for col in OUTPUT_COLUMNS:
-                    row[col] = review.get(col)
-                rows.append(row)
             csv_writer.writeheader()
-            csv_writer.writerows(rows)
+            for offset in range(0, item_count, limit):
+                items = dataset_client.list_items(offset=offset, limit=limit).items
+                for item in items:
+                    row = {}
+                    for col in OUTPUT_COLUMNS:
+                        row[col] = item.get(col)
+                    csv_writer.writerow(row)
+        logging.info('Finished storing the dataset items to CSV output table')
 
 
 if __name__ == "__main__":
