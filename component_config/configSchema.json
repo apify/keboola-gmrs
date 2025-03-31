@@ -1,0 +1,150 @@
+{
+    "title": "Keboola - Google Maps Reviews Scraper",
+    "description": "Provide either Google place URLs. You will get all the reviews that are connected with the selected Google Place.",
+    "type": "object",
+    "schemaVersion": 1,
+    "required": [
+        "#token"
+    ],
+    "properties": {
+        "#token": {
+            "title": "Apify API Token",
+            "type": "string",
+            "description": "Enter your Apify API Token to start the actor. See the configuration description how to obtain the token.",
+            "format": "password"
+        },
+        "maxReviews": {
+            "title": "Number of reviews",
+            "type": "integer",
+            "format": "number",
+            "description": "Max number of reviews per place to scrape. If you fill in 0 or nothing, no reviews will be scraped. For all reviews, just put 99999.",
+            "prefill": 100,
+            "default": 10000000,
+            "unit": "reviews per place"
+        },
+        "reviewsSort": {
+            "title": "Sort reviews by",
+            "description": "Define how reviews should be sorted.",
+            "type": "string",
+            "default": "newest",
+            "enum": [
+                "newest",
+                "mostRelevant",
+                "highestRanking",
+                "lowestRanking"
+            ],
+            "enumTitles": [
+                "Newest",
+                "Most relevant",
+                "Highest ranking",
+                "Lowest ranking"
+            ]
+        },
+        "reviewsStartDate": {
+            "title": "Only scrape reviews newer than [date]",
+            "type": "string",
+            "description": "Enter either an absolute date in YYYY-MM-DD or ISO format, (e.g. <code>2022-02-20</code> or <code>2024-05-03T10:00:00</code>) or relative date with number and time unit (e.g. <code>8 days</code> or <code>3 months</code>)."
+        },
+        "language": {
+            "title": "Language",
+            "description": "Results details will show in this language.",
+            "enum": [
+                "en",
+                "af",
+                "az",
+                "id",
+                "ms",
+                "bs",
+                "ca",
+                "cs",
+                "da",
+                "de",
+                "et",
+                "es",
+                "es-419",
+                "eu",
+                "fil",
+                "fr",
+                "gl",
+                "hr",
+                "zu",
+                "is",
+                "it",
+                "sw",
+                "lv",
+                "lt",
+                "hu",
+                "nl",
+                "no",
+                "uz",
+                "pl",
+                "pt-BR",
+                "pt-PT",
+                "ro",
+                "sq",
+                "sk",
+                "sl",
+                "fi",
+                "sv",
+                "vi",
+                "tr",
+                "el",
+                "bg",
+                "ky",
+                "kk",
+                "mk",
+                "mn",
+                "ru",
+                "sr",
+                "uk",
+                "ka",
+                "hy",
+                "iw",
+                "ur",
+                "ar",
+                "fa",
+                "am",
+                "ne",
+                "hi",
+                "mr",
+                "bn",
+                "pa",
+                "gu",
+                "ta",
+                "te",
+                "kn",
+                "ml",
+                "si",
+                "th",
+                "lo",
+                "my",
+                "km",
+                "ko",
+                "ja",
+                "zh-CN",
+                "zh-TW"
+            ],
+            "type": "string",
+            "default": "en",
+            "example": "en",
+            "prefill": "en"
+        },
+        "reviewsOrigin": {
+            "title": "Reviews origin",
+            "description": "Select whether you want all reviews (from Google, Tripadvisor, etc.) or only reviews from Google",
+            "type": "string",
+            "default": "all",
+            "enum": [
+                "all",
+                "google"
+            ]
+        },
+        "personalData": {
+            "title": "Personal data",
+            "type": "boolean",
+            "format": "checkbox",
+            "description": "This settings allows you to obtain personal data about reviewer (his ID, name, URL and his photo URL) and about review (ID and URL). Personal data is protected by the GDPR in the European Union and by other regulations around the world. You should not scrape personal data unless you have a legitimate reason to do so. If you're unsure whether your reason is legitimate, consult your lawyers.",
+            "default": true
+        }
+    }
+}

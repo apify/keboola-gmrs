@@ -1,0 +1,36 @@
+{
+    "parameters": {
+        "reviewsOrigin": "all",
+        "personalData": true,
+        "reviewsStartDate": "",
+        "#token": "<YOUR_APIFY_API_TOKEN>",
+        "maxReviews": 40,
+        "language": "en",
+        "reviewsSort": "newest"
+    },
+    "storage": {
+        "input": {
+            "tables": [
+                {
+                    "source": "in.c-gmrs.gmrs-test-data",
+                    "destination": "gmrs-test-data.csv",
+                    "where_column": "",
+                    "where_values": [],
+                    "where_operator": "eq",
+                    "columns": [],
+                    "keep_internal_timestamp_column": false,
+                    "column_types": [],
+                    "overwrite": false,
+                    "use_view": false
+                }
+            ],
+            "files": []
+        }
+    },
+    "shared_code_row_ids": [],
+    "image_parameters": {},
+    "authorization": {
+        "context": "2545-extractor"
+    },
+    "action": "run"
+}
