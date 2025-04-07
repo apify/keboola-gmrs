@@ -145,6 +145,13 @@
             "format": "checkbox",
             "description": "This settings allows you to obtain personal data about reviewer (his ID, name, URL and his photo URL) and about review (ID and URL). Personal data is protected by the GDPR in the European Union and by other regulations around the world. You should not scrape personal data unless you have a legitimate reason to do so. If you're unsure whether your reason is legitimate, consult your lawyers.",
             "default": true
+        },
+        "incrementalOutput": {
+            "title": "Incremental Loading",
+            "description": "If checked the component loads data incrementally otherwise all data from the component will be loaded.",
+            "format": "checkbox",
+            "type": "boolean",
+            "default": true
         }
     }
 }

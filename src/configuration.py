@@ -12,6 +12,7 @@ class Configuration(BaseModel):
     reviewsOrigin: str = Field()
     reviewsSort: str = Field()
     reviewsStartDate: str = Field()
+    incrementalOutput: bool = Field()
 
     def __init__(self, **data):
         try:
