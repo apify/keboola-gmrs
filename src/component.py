@@ -3,6 +3,7 @@ Template Component main class.
 
 """
 import csv
+import io
 import logging
 from apify_client import ApifyClient
 
@@ -10,7 +11,7 @@ from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
 from configuration import Configuration
-from consts import ACTOR_ID, OUTPUT_COLUMNS, REQUIRED_PARAMETERS
+from consts import ACTOR_ID, REQUIRED_PARAMETERS
 
 class Component(ComponentBase):
     """
@@ -107,32 +108,51 @@ class Component(ComponentBase):
 
 
     """
+        Reads `dataset_fields` from `state.json` and updates it with new fields from dataset (if any)
+    """
+    def prepare_dataset_fields(self, dataset):
+        state = self.get_state_file()
+        dataset_fields = state.get('dataset_fields') or []
+        for field in dataset['fields']:
+            if field not in dataset_fields:
+                dataset_fields.append(field)
+        dataset_fields.sort()
+        state['dataset_fields'] = dataset_fields
+        self.write_state_file(state)
+        return dataset_fields
+
+
+    """
         Downloads items from `dataset_id` in batches and stores them in `output.csv` output table
     """
     def write_output_table(self, apify_client: ApifyClient, dataset_id: str):
-        output_table = self.create_out_table_definition('output.csv', incremental=self.params.incrementalOutput, primary_key=['placeId', 'reviewId'])
-        for col in OUTPUT_COLUMNS:
-            output_table.add_column(col)
-        self.write_manifest(output_table)
-
         dataset_client = apify_client.dataset(dataset_id)
         dataset = dataset_client.get()
         if not dataset:
             return
+
+        dataset_fields = self.prepare_dataset_fields(dataset)
 
         item_count = dataset['itemCount']
         logging.info('Storing %d items from dataset (id: "%s") to CSV output table' % (item_count, dataset_id))
 
         limit = 2_000
 
+        output_table = self.create_out_table_definition('output.csv', incremental=self.params.incrementalOutput, primary_key=['placeId', 'reviewId'])
+        for col in dataset_fields:
+            output_table.add_column(col)
+        self.write_manifest(output_table)
+
         with open(output_table.full_path, 'w') as file:
-            csv_writer = csv.DictWriter(file, OUTPUT_COLUMNS)
+            csv_writer = csv.DictWriter(file, dataset_fields)
             csv_writer.writeheader()
             for offset in range(0, item_count, limit):
-                items = dataset_client.list_items(offset=offset, limit=limit).items
-                for item in items:
+                # we download items in csv format so that the field flattening is handled for us
+                items_csv = dataset_client.download_items(offset=offset, limit=limit, item_format='csv').decode('utf-8')
+                csv_reader = csv.DictReader(io.StringIO(items_csv))
+                for item in csv_reader:
                     row = {}
-                    for col in OUTPUT_COLUMNS:
+                    for col in dataset_fields:
                         row[col] = item.get(col)
                     csv_writer.writerow(row)
         logging.info('Finished storing the dataset items to CSV output table')
