@@ -31,6 +31,7 @@ class Component(ComponentBase):
         # check for missing configuration parameters
         self.validate_configuration_parameters(mandatory_params=REQUIRED_PARAMETERS)
         params = Configuration(**self.configuration.parameters)
+        self.params = params
 
         place_ids, start_urls = self.read_input_table() 
 
@@ -109,7 +110,7 @@ class Component(ComponentBase):
         Downloads items from `dataset_id` in batches and stores them in `output.csv` output table
     """
     def write_output_table(self, apify_client: ApifyClient, dataset_id: str):
-        output_table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['placeId', 'reviewId'])
+        output_table = self.create_out_table_definition('output.csv', incremental=self.params.incrementalOutput, primary_key=['placeId', 'reviewId'])
         for col in OUTPUT_COLUMNS:
             output_table.add_column(col)
         self.write_manifest(output_table)

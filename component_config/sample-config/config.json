@@ -6,7 +6,8 @@
         "#token": "<YOUR_APIFY_API_TOKEN>",
         "maxReviews": 40,
         "language": "en",
-        "reviewsSort": "newest"
+        "reviewsSort": "newest",
+        "incrementalOutput": true
     },
     "storage": {
         "input": {
