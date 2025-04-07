@@ -1,6 +1,6 @@
 {
     "title": "Keboola - Google Maps Reviews Scraper",
-    "description": "Provide either Google place URLs. You will get all the reviews that are connected with the selected Google Place.",
+    "description": "Provide your Apify API Token to connect the component with Apify platform. Additionally you can provide parameters like desired number of reviews per place, language, or sort. See the configuration description above how to pass Google place URLs or IDs to the component.",
     "type": "object",
     "schemaVersion": 1,
     "required": [
