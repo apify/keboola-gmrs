@@ -110,10 +110,13 @@ class Component(ComponentBase):
     """
         Reads `dataset_fields` from `state.json` and updates it with new fields from dataset (if any)
     """
-    def prepare_dataset_fields(self, dataset):
+    def prepare_dataset_fields(self, dataset_client):
         state = self.get_state_file()
+        # we download just one item to get the CSV headers
+        items_csv = dataset_client.download_items(limit=1, item_format='csv').decode('utf-8-sig')
+        csv_reader = csv.DictReader(io.StringIO(items_csv))
         dataset_fields = state.get('dataset_fields') or []
-        for field in dataset['fields']:
+        for field in csv_reader.fieldnames or []:
             if field not in dataset_fields:
                 dataset_fields.append(field)
         dataset_fields.sort()
@@ -129,9 +132,9 @@ class Component(ComponentBase):
         dataset_client = apify_client.dataset(dataset_id)
         dataset = dataset_client.get()
         if not dataset:
-            return
+            raise Exception('Dataset "%s" not found, please contact support@apify.com' % dataset_id)
 
-        dataset_fields = self.prepare_dataset_fields(dataset)
+        dataset_fields = self.prepare_dataset_fields(dataset_client)
 
         item_count = dataset['itemCount']
         logging.info('Storing %d items from dataset (id: "%s") to CSV output table' % (item_count, dataset_id))
@@ -148,7 +151,7 @@ class Component(ComponentBase):
             csv_writer.writeheader()
             for offset in range(0, item_count, limit):
                 # we download items in csv format so that the field flattening is handled for us
-                items_csv = dataset_client.download_items(offset=offset, limit=limit, item_format='csv').decode('utf-8')
+                items_csv = dataset_client.download_items(offset=offset, limit=limit, item_format='csv').decode('utf-8-sig')
                 csv_reader = csv.DictReader(io.StringIO(items_csv))
                 for item in csv_reader:
                     row = {}
