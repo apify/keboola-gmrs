@@ -1,1 +1,1 @@
-Scrape Google Maps Reviews with Apify's Google Maps Reviews Scraper
+Google Maps reviews data ingestion component for ETL pipelines

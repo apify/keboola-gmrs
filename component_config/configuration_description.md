@@ -1,14 +1,9 @@
-The component expects an input table with one of the following columns:
-- `place_id`: ID of a Google Maps place whose reviews to scrape
-- `place_url`: URL of a Google maps place whose reviews to scrape
+This Google Maps Reviews App extracts reviews data from Google Maps places to integrate into your data warehouse or analytics pipeline. You can extract review text, ratings, timestamps, reviewer details, and owner responses for customer sentiment analysis, competitive intelligence, and reputation management.
 
-If both columns are present, `place_id` takes precedence.
+The component requires an input table with either:
+* `place_url` column containing Google Maps place URLs (containing /maps/search, /maps/place, or /maps/reviews).
+* `place_id` column containing Google Place IDs for the locations you want to analyze.
 
-Additionally, you can set the following options:
-- number of reviews to scrape for each place
-- language, in which the reviews will be scraped
-- sorting: newest, most relevant, highest or lowest rating
-- whether you want to scrape only reviews from Google or from other as well (e.g. Tripadvisor)
-- date of the oldest review - the scraper will scrape only reviews newer than the selected date
+You can configure extraction parameters including review count limits, sorting methods, date filters, and language preferences to create customized data feeds for your analytics.
 
 In order to start the actor, you need to provide Apify API Token, which you can get in [Apify's Settings](https://console.apify.com/settings/integrations).
