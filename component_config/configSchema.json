@@ -10,7 +10,7 @@
         "#token": {
             "title": "Apify API Token",
             "type": "string",
-            "description": "Enter your Apify API Token to start the actor. See the configuration description how to obtain the token.",
+            "description": "Enter your Apify API Token to start the actor. See the component description how to obtain the token.",
             "format": "password"
         },
         "maxReviews": {
