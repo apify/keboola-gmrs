@@ -143,6 +143,13 @@
             "type": "boolean",
             "description": "Enable extraction of reviewer personal data (ID, name, URL, photo) and review identifiers for advanced customer analytics. Note: Personal data processing must comply with GDPR and other applicable data protection regulations. Ensure your data governance policies permit such collection before enabling.",
             "default": true
+        },
+        "incrementalOutput": {
+            "title": "Incremental Loading",
+            "description": "If checked the component loads data incrementally otherwise all data from the component will be loaded.",
+            "format": "checkbox",
+            "type": "boolean",
+            "default": true
         }
     }
 }
