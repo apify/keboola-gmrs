@@ -2,6 +2,8 @@ import logging
 from pydantic import BaseModel, Field, ValidationError, field_validator
 from keboola.component.exceptions import UserException
 
+from consts import DEFAULT_PLACE_ID_COLUMN, DEFAULT_PLACE_URL_COLUMN
+
 
 class Configuration(BaseModel):
     token: str = Field(alias="#token")
@@ -13,6 +15,8 @@ class Configuration(BaseModel):
     reviewsSort: str = Field()
     reviewsStartDate: str = Field()
     incrementalOutput: bool = Field()
+    placeIdColumn: str = Field(default=DEFAULT_PLACE_ID_COLUMN)
+    placeUrlColumn: str = Field(default=DEFAULT_PLACE_URL_COLUMN)
 
     def __init__(self, **data):
         try:
