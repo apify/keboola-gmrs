@@ -1,155 +1,17 @@
 {
-    "title": "Google Maps Reviews Scraper",
-    "description": "Provide your Apify API Token to connect the component with the Apify platform. You can also provide parameters like desired number of reviews per place, language, or sort. The component requires an input table with either 'place_url' or 'place_id' columns containing Google Maps URLs or Place IDs. See the configuration description above for more details on how to structure your input table.",
     "type": "object",
+    "title": "Google Maps Reviews Scraper",
+    "description": "Provide your Apify API Token to connect the component with the Apify platform.",
     "schemaVersion": 1,
     "required": [
         "#token"
     ],
     "properties": {
         "#token": {
+            "type": "string",
             "title": "Apify API Token",
-            "type": "string",
-            "description": "Enter your Apify API Token to start the actor. See the component description how to obtain the token.",
-            "format": "password"
-        },
-        "maxReviews": {
-            "title": "Number of reviews",
-            "type": "integer",
-            "description": "Maximum volume of reviews data to extract per place. Use 0 for metadata-only extraction, or 99999 for comprehensive data ingestion of all available reviews.",
-            "prefill": 100,
-            "default": 100,
-            "unit": "reviews per place"
-        },
-        "reviewsSort": {
-            "title": "Sort reviews by",
-            "description": "Define the sorting algorithm for review data extraction to prioritize the most relevant data for your analytics needs.",
-            "type": "string",
-            "default": "newest",
-            "enum": [
-                "newest",
-                "mostRelevant",
-                "highestRanking",
-                "lowestRanking"
-            ],
-            "enumTitles": [
-                "Newest",
-                "Most relevant",
-                "Highest ranking",
-                "Lowest ranking"
-            ]
-        },
-        "reviewsStartDate": {
-            "title": "Only scrape reviews newer than [date]",
-            "type": "string",
-            "description": "Configure incremental loading by specifying a date threshold. Use either absolute date (e.g. `2024-05-03`) or relative date from now into the past (e.g. `8 days`, `3 months`). JSON input also supports adding time in both absolute (ISO standard, e.g. `2024-05-03T20:00:00`) and relative (e.g. `3 hours`) formats. Absolute time is always interpreted in the UTC timezone, not your local timezone - please convert accordingly. Supported relative date & time units: `minutes`, `hours`, `days`, `weeks`, `months`, `years`."
-        },
-        "language": {
-            "title": "Language",
-            "description": "Specify the language for extracted data to ensure consistent text analytics and sentiment processing in your data pipeline.",
-            "enum": [
-                "en",
-                "af",
-                "az",
-                "id",
-                "ms",
-                "bs",
-                "ca",
-                "cs",
-                "da",
-                "de",
-                "et",
-                "es",
-                "es-419",
-                "eu",
-                "fil",
-                "fr",
-                "gl",
-                "hr",
-                "zu",
-                "is",
-                "it",
-                "sw",
-                "lv",
-                "lt",
-                "hu",
-                "nl",
-                "no",
-                "uz",
-                "pl",
-                "pt-BR",
-                "pt-PT",
-                "ro",
-                "sq",
-                "sk",
-                "sl",
-                "fi",
-                "sv",
-                "vi",
-                "tr",
-                "el",
-                "bg",
-                "ky",
-                "kk",
-                "mk",
-                "mn",
-                "ru",
-                "sr",
-                "uk",
-                "ka",
-                "hy",
-                "iw",
-                "ur",
-                "ar",
-                "fa",
-                "am",
-                "ne",
-                "hi",
-                "mr",
-                "bn",
-                "pa",
-                "gu",
-                "ta",
-                "te",
-                "kn",
-                "ml",
-                "si",
-                "th",
-                "lo",
-                "my",
-                "km",
-                "ko",
-                "ja",
-                "zh-CN",
-                "zh-TW"
-            ],
-            "type": "string",
-            "default": "en",
-            "example": "en",
-            "prefill": "en"
-        },
-        "reviewsOrigin": {
-            "title": "Reviews origin",
-            "description": "Filter data source to optimize pipeline for specific analytics needs - extract all available reviews or focus exclusively on Google-verified content.",
-            "type": "string",
-            "default": "all",
-            "enum": [
-                "all",
-                "google"
-            ]
-        },
-        "personalData": {
-            "title": "Personal data",
-            "type": "boolean",
-            "description": "Enable extraction of reviewer personal data (ID, name, URL, photo) and review identifiers for advanced customer analytics. Note: Personal data processing must comply with GDPR and other applicable data protection regulations. Ensure your data governance policies permit such collection before enabling.",
-            "default": true
-        },
-        "incrementalOutput": {
-            "title": "Incremental Loading",
-            "description": "If checked the component loads data incrementally otherwise all data from the component will be loaded.",
-            "format": "checkbox",
-            "type": "boolean",
-            "default": true
+            "format": "password",
+            "description": "Enter your Apify API Token to start the actor. See the component description how to obtain the token."
         }
     }
 }
