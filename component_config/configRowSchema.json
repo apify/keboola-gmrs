@@ -4,6 +4,26 @@
     "description": "You can also provide parameters like desired number of reviews per place, language, or sort. The component requires an input table with either 'place_url' or 'place_id' columns containing Google Maps URLs or Place IDs. See the configuration description above for more details on how to structure your input table.",
     "schemaVersion": 1,
     "properties": {
+        "placeIdColumn": {
+            "type": "string",
+            "title": "Place ID column",
+            "watch": {
+                "columns": "_metadata_.table.columns"
+            },
+            "enumSource": "columns",
+            "propertyOrder": 1,
+            "description": "Select the column from the input table that contains the place IDs you want to scrape."
+        },
+        "placeUrlColumn": {
+            "type": "string",
+            "title": "Place URL column",
+            "watch": {
+                "columns": "_metadata_.table.columns"
+            },
+            "enumSource": "columns",
+            "propertyOrder": 2,
+            "description": "Select the column from the input table that contains the place URLs you want to scrape. If a row's Place ID column is empty, then value from place URL column will be used. If left empty, `place_url` column is used."
+        },
         "language": {
             "enum": [
                 "en",
@@ -86,7 +106,7 @@
             "default": "en",
             "example": "en",
             "prefill": "en",
-            "propertyOrder": 1,
+            "propertyOrder": 3,
             "description": "Specify the language for extracted data to ensure consistent text analytics and sentiment processing in your data pipeline."
         },
         "maxReviews": {
@@ -95,7 +115,7 @@
             "title": "Number of reviews",
             "default": 100,
             "prefill": 100,
-            "propertyOrder": 2,
+            "propertyOrder": 4,
             "description": "Maximum volume of reviews data to extract per place. Use 0 for metadata-only extraction, or 99999 for comprehensive data ingestion of all available reviews."
         },
         "reviewsSort": {
@@ -114,7 +134,7 @@
                 "Highest ranking",
                 "Lowest ranking"
             ],
-            "propertyOrder": 3,
+            "propertyOrder": 5,
             "description": "Define the sorting algorithm for review data extraction to prioritize the most relevant data for your analytics needs."
         },
         "reviewsOrigin": {
@@ -125,20 +145,20 @@
             "type": "string",
             "title": "Reviews origin",
             "default": "all",
-            "propertyOrder": 4,
+            "propertyOrder": 6,
             "description": "Filter data source to optimize pipeline for specific analytics needs - extract all available reviews or focus exclusively on Google-verified content."
         },
         "reviewsStartDate": {
             "type": "string",
             "title": "Only scrape reviews newer than [date]",
-            "propertyOrder": 5,
+            "propertyOrder": 7,
             "description": "Configure incremental loading by specifying a date threshold. Use either absolute date (e.g. `2024-05-03`) or relative date from now into the past (e.g. `8 days`, `3 months`). JSON input also supports adding time in both absolute (ISO standard, e.g. `2024-05-03T20:00:00`) and relative (e.g. `3 hours`) formats. Absolute time is always interpreted in the UTC timezone, not your local timezone - please convert accordingly. Supported relative date & time units: `minutes`, `hours`, `days`, `weeks`, `months`, `years`."
         },
         "personalData": {
             "type": "boolean",
             "title": "Personal data",
             "default": true,
-            "propertyOrder": 6,
+            "propertyOrder": 8,
             "description": "Enable extraction of reviewer personal data (ID, name, URL, photo) and review identifiers for advanced customer analytics. Note: Personal data processing must comply with GDPR and other applicable data protection regulations. Ensure your data governance policies permit such collection before enabling."
         },
         "incrementalOutput": {
@@ -146,7 +166,7 @@
             "title": "Incremental Loading",
             "format": "checkbox",
             "default": true,
-            "propertyOrder": 7,
+            "propertyOrder": 9,
             "description": "If checked the component loads data incrementally otherwise all data from the component will be loaded."
         }
     }

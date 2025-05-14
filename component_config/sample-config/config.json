@@ -7,7 +7,9 @@
         "maxReviews": 40,
         "language": "en",
         "reviewsSort": "newest",
-        "incrementalOutput": true
+        "incrementalOutput": true,
+        "placeIdColumn": "place_id",
+        "placeUrlColumn": "place_url"
     },
     "storage": {
         "input": {
