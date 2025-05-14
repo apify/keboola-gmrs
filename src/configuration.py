@@ -13,6 +13,8 @@ class Configuration(BaseModel):
     reviewsSort: str = Field()
     reviewsStartDate: str = Field()
     incrementalOutput: bool = Field()
+    placeIdColumn: str = Field(default="place_id")
+    placeUrlColumn: str = Field(default="place_url")
 
     def __init__(self, **data):
         try:

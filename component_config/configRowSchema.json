@@ -148,6 +148,28 @@
             "default": true,
             "propertyOrder": 7,
             "description": "If checked the component loads data incrementally otherwise all data from the component will be loaded."
+        },
+        "placeIdColumn": {
+            "type": "string",
+            "title": "Choose Place ID column",
+            "watch": {
+                "columns": "_metadata_.table.columns"
+            },
+            "default": "place_id",
+            "enumSource": "columns",
+            "propertyOrder": 8,
+            "description": "Choose the column that contains place IDs"
+        },
+        "placeUrlColumn": {
+            "type": "string",
+            "title": "Choose Place URL column",
+            "watch": {
+                "columns": "_metadata_.table.columns"
+            },
+            "default": "place_url",
+            "enumSource": "columns",
+            "propertyOrder": 9,
+            "description": "Choose the column that contains place URLs. If a row's Place ID column is empty, then value from place URL column will be used."
         }
     }
 }
