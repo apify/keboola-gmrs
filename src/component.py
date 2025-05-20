@@ -11,7 +11,7 @@ from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
 from configuration import Configuration
-from consts import ACTOR_ID, REQUIRED_PARAMETERS
+from consts import ACTOR_ID, DEFAULT_PLACE_ID_COLUMN, DEFAULT_PLACE_URL_COLUMN, REQUIRED_PARAMETERS
 
 class Component(ComponentBase):
     """
@@ -75,7 +75,7 @@ class Component(ComponentBase):
     """
         Reads input csv file and extracts values from 'place_id' or 'place_url' columns.
         This fails if neither of the columns is present.
-        If a row doesn't contain `place_id` nor `place_url`, it will be skipped.
+        If a row doesn't contain `placeIdColumn` nor `placeUrlColumn` (specified in config.json), it will be skipped.
     """
     def read_input_table(self):
         input_tables = self.get_input_tables_definitions()
@@ -85,6 +85,14 @@ class Component(ComponentBase):
         place_ids = []
         start_urls = []
 
+        place_id_column = self.params.placeIdColumn
+        if place_id_column == '':
+            place_id_column  = DEFAULT_PLACE_ID_COLUMN
+
+        place_url_column = self.params.placeUrlColumn
+        if place_url_column == '':
+            place_url_column  = DEFAULT_PLACE_URL_COLUMN
+
         for input_table in input_tables:
             logging.info(f'Processing input table: {input_table.name} with path: {input_table.full_path}')
 
@@ -92,13 +100,13 @@ class Component(ComponentBase):
                 csv_reader = csv.DictReader(file)
                 columns = list(csv_reader.fieldnames or [])
 
-                if 'place_id' not in columns and 'place_url' not in columns:
-                    raise UserException('Expects the input input to contain "place_id" or "place_url columns')
+                if place_id_column not in columns and place_url_column not in columns:
+                    raise UserException(f'Expects the input table to contain "{place_id_column}" or "{place_url_column}" columns')
 
                 for row in csv_reader:
-                    if (place_id := row.get('place_id')):
+                    if (place_id := row.get(place_id_column)):
                         place_ids.append(place_id)
-                    elif (place_url := row.get('place_url')):
+                    elif (place_url := row.get(place_url_column)):
                         start_urls.append({ 'url': place_url })
 
         if len(place_ids) == 0 and len(start_urls) == 0:
