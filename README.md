@@ -36,4 +36,4 @@ sh deploy.sh
 sh scripts/deleloper_portal/update_properties.sh
 ```
 
-Deploying from terminal should not be needed. To deploy a new version, we need to push a new tag to the default branch and GH actions should handle the deployment. TODO: verify GH actions deployment
+Deploying from terminal should not be needed. To deploy a new version, we need to push a new tag to the default branch and GH actions should handle the deployment.
