@@ -5,7 +5,7 @@
 Create `data` directory by copying `sample-config`:
 
 ```sh
-cp component_config/sample-config data
+cp -r component_config/sample-config data
 ```
 
 Then, in `data/config.json`, replace `<YOUR_APIFY_API_TOKEN>` with your Apify API token. Finally, run the component:
@@ -25,15 +25,15 @@ you need to set the following environment variables:
 You'll find the values in repo's [secrets](https://github.com/apify/keboola-gmrs/settings/secrets/actions) and [variables](https://github.com/apify/keboola-gmrs/settings/variables/actions).
 
 ```sh
-APP_IMAGE=keboola.component
-GITHUB_TAG=0.0.4
-docker build -t APP_IMAGE:latest .
+export APP_IMAGE=keboola.component
+export GITHUB_TAG=0.0.4
+docker build -t $APP_IMAGE:latest .
 
 # Deploy the container
 sh deploy.sh
 
 # Update compontent's configs and descriptions
-sh scripts/deleloper_portal/update_properties.sh
+sh scripts/developer_portal/update_properties.sh
 ```
 
 Deploying from terminal should not be needed. To deploy a new version, we need to push a new tag to the default branch and GH actions should handle the deployment.
