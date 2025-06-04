@@ -5,6 +5,11 @@ from keboola.component.exceptions import UserException
 from consts import DEFAULT_PLACE_ID_COLUMN, DEFAULT_PLACE_URL_COLUMN
 
 
+class Destination(BaseModel):
+    incrementalOutput: bool = Field()
+    outputTableName: str = Field()
+
+
 class Configuration(BaseModel):
     token: str = Field(alias="#token")
 
@@ -14,7 +19,7 @@ class Configuration(BaseModel):
     reviewsOrigin: str = Field()
     reviewsSort: str = Field()
     reviewsStartDate: str = Field()
-    incrementalOutput: bool = Field()
+    destination: Destination = Field()
     placeIdColumn: str = Field(default=DEFAULT_PLACE_ID_COLUMN)
     placeUrlColumn: str = Field(default=DEFAULT_PLACE_URL_COLUMN)
 
