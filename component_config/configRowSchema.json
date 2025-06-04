@@ -159,6 +159,7 @@
             "title": "Personal data",
             "default": true,
             "propertyOrder": 8,
+            "format": "checkbox",
             "description": "Enable extraction of reviewer personal data (ID, name, URL, photo) and review identifiers for advanced customer analytics. Note: Personal data processing must comply with GDPR and other applicable data protection regulations. Ensure your data governance policies permit such collection before enabling."
         },
         "incrementalOutput": {
