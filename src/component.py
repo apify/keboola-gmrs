@@ -134,7 +134,7 @@ class Component(ComponentBase):
 
 
     """
-        Downloads items from `dataset_id` in batches and stores them in `output.csv` output table
+        Downloads items from `dataset_id` in batches and stores them in output table
     """
     def write_output_table(self, apify_client: ApifyClient, dataset_id: str):
         dataset_client = apify_client.dataset(dataset_id)
@@ -149,7 +149,8 @@ class Component(ComponentBase):
 
         limit = 2_000
 
-        output_table = self.create_out_table_definition('output.csv', incremental=self.params.incrementalOutput, primary_key=['placeId', 'reviewId'])
+        destination = self.params.destination
+        output_table = self.create_out_table_definition(destination.outputTableName, incremental=destination.incrementalOutput, primary_key=['placeId', 'reviewId'])
         for col in dataset_fields:
             output_table.add_column(col)
         self.write_manifest(output_table)

@@ -2,12 +2,15 @@
     "parameters": {
         "reviewsOrigin": "all",
         "personalData": true,
+        "destination": {
+            "outputTableName": "output_table",
+            "incrementalOutput": true
+        },
         "reviewsStartDate": "",
         "#token": "<YOUR_APIFY_API_TOKEN>",
         "maxReviews": 40,
         "language": "en",
         "reviewsSort": "newest",
-        "incrementalOutput": true,
         "placeIdColumn": "place_id",
         "placeUrlColumn": "place_url"
     },

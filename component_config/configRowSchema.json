@@ -162,13 +162,30 @@
             "format": "checkbox",
             "description": "Enable extraction of reviewer personal data (ID, name, URL, photo) and review identifiers for advanced customer analytics. Note: Personal data processing must comply with GDPR and other applicable data protection regulations. Ensure your data governance policies permit such collection before enabling."
         },
-        "incrementalOutput": {
-            "type": "boolean",
-            "title": "Incremental Loading",
-            "format": "checkbox",
-            "default": true,
-            "propertyOrder": 9,
-            "description": "If checked the component loads data incrementally otherwise all data from the component will be loaded."
+        "destination": {
+            "type": "object",
+            "title": "Destination",
+            "required": [
+                "outputTableName",
+                "incrementalOutput"
+            ],
+            "properties": {
+                "outputTableName": {
+                    "type": "string",
+                    "title": "Storage Table Name",
+                    "description": "Name of the table stored in Storage.",
+                    "propertyOrder": 9
+                },
+                "incrementalOutput": {
+                    "type": "boolean",
+                    "title": "Incremental Loading",
+                    "format": "checkbox",
+                    "default": true,
+                    "propertyOrder": 10,
+                    "description": "If checked the component loads data incrementally otherwise all data from the component will be loaded."
+                }
+            },
+            "propertyOrder": 9
         }
     }
 }
