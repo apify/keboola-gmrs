@@ -14,9 +14,23 @@ Then, in `data/config.json`, replace `<YOUR_APIFY_API_TOKEN>` with your Apify AP
 KBC_DATADIR=data python src/component.py
 ```
 
-## Deploying from terminal
+## Deploying a new version
 
-you need to set the following environment variables:
+The recommended way to release and deploy a new version is via [GitHub Releases](https://github.com/apify/keboola-gmrs/releases):
+
+
+1. Go to the GitHub Releases page for this repository.
+2. Click "Draft a new release" and fill in the version, description, and changelog.
+2. Changelog can be generated using "Generate release notes" button.
+4. Publish the release.
+
+![Release example](docs/imgs/release.png)
+
+Publishing a release will automatically trigger deployment via GitHub Actions. No manual deployment from the terminal is required in most cases.
+
+### Manual deployment from terminal (advanced)
+
+If you need to deploy manually, set the following environment variables:
 - `KBC_DEVELOPERPORTAL_APP`
 - `KBC_DEVELOPERPORTAL_USERNAME`
 - `KBC_DEVELOPERPORTAL_VENDOR`
@@ -36,4 +50,4 @@ sh deploy.sh
 sh scripts/deleloper_portal/update_properties.sh
 ```
 
-Deploying from terminal should not be needed. To deploy a new version, we need to push a new tag to the default branch and GH actions should handle the deployment.
+Deploying from terminal should not be needed. To deploy a new version, we need to push a new tag to the default branch or publish a release on GitHub, and GitHub Actions will handle the deployment.
