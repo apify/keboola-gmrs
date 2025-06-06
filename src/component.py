@@ -6,6 +6,7 @@ import csv
 import io
 import logging
 from apify_client import ApifyClient
+import httpx
 
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
@@ -48,7 +49,13 @@ class Component(ComponentBase):
         if params.reviewsStartDate:
             run_input['reviewsStartDate'] = params.reviewsStartDate
 
-        apify_client = ApifyClient(params.token)
+        # Set up Apify client with custom headers
+        custom_headers = {
+            "x-apify-integration-platform": "keboola",
+            "x-apify-integration-app-id": "google-maps-reviews-scraper"
+        }
+        apify_client = ApifyClient(token=params.token)
+        apify_client.http_client.httpx_client.headers.update(custom_headers)
         actor_client = apify_client.actor(ACTOR_ID)
 
         try:
