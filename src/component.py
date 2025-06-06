@@ -11,7 +11,7 @@ from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
 from configuration import Configuration
-from consts import ACTOR_ID, DEFAULT_PLACE_ID_COLUMN, DEFAULT_PLACE_URL_COLUMN, REQUIRED_PARAMETERS
+from consts import ACTOR_ID, DEFAULT_OUTPUT_TABLE_NAME, DEFAULT_PLACE_ID_COLUMN, DEFAULT_PLACE_URL_COLUMN, REQUIRED_PARAMETERS
 
 class Component(ComponentBase):
     """
@@ -150,7 +150,11 @@ class Component(ComponentBase):
         limit = 2_000
 
         destination = self.params.destination
-        output_table = self.create_out_table_definition(destination.outputTableName, incremental=destination.incrementalOutput, primary_key=['placeId', 'reviewId'])
+        output_table_name = destination.outputTableName or DEFAULT_OUTPUT_TABLE_NAME
+        if output_table_name == '':
+            output_table_name = DEFAULT_OUTPUT_TABLE_NAME
+
+        output_table = self.create_out_table_definition(output_table_name, incremental=destination.incrementalOutput, primary_key=['placeId', 'reviewId'])
         for col in dataset_fields:
             output_table.add_column(col)
         self.write_manifest(output_table)

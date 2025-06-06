@@ -3,7 +3,7 @@
         "reviewsOrigin": "all",
         "personalData": true,
         "destination": {
-            "outputTableName": "output_table",
+            "outputTableName": "google-maps-reviews",
             "incrementalOutput": true
         },
         "reviewsStartDate": "",
