@@ -50,7 +50,6 @@ class Component(ComponentBase):
             run_input['reviewsStartDate'] = params.reviewsStartDate
 
         # Set up Apify client with custom headers
-        # TODO: Use client ovveride once https://github.com/apify/apify-client-python/issues/416 is resolved.
         custom_headers = {
             "x-apify-integration-platform": "keboola",
             "x-apify-integration-app-id": "google-maps-reviews-scraper"
