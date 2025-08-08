@@ -174,6 +174,11 @@ class Component(ComponentBase):
                 items_csv = dataset_client.download_items(offset=offset, limit=limit, item_format='csv').decode('utf-8-sig')
                 csv_reader = csv.DictReader(io.StringIO(items_csv))
                 for item in csv_reader:
+                    # NOTE: dataset items with `error` are skipped, we only log the `error`
+                    error = item.get('error')
+                    if error:
+                        logging.warning('Found item with error property, skipping it...Error: %s' % (item.get('errorDescription') or error))
+                        continue
                     row = {}
                     for col in dataset_fields:
                         row[col] = item.get(col)
