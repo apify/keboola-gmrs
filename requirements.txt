@@ -4,4 +4,4 @@ keboola.http-client
 freezegun
 mock
 pydantic
-apify-client
+apify-client>=2.5.0
