@@ -65,14 +65,14 @@ class Component(ComponentBase):
         actor_run = actor_client.start(run_input = run_input)
         if not actor_run:
             raise UserException('Received empty run response. If the error keeps happening, contact Apify support: support@apify.com')
-        run_id = actor_run['id']
+        run_id = actor_run.id
         logging.info('Started Google Maps Reviews Scraper run. You can check the progress at https://console.apify.com/view/runs/%s' % run_id)
 
         run_client = apify_client.run(run_id)
         run_client.wait_for_finish()
         logging.info('Run has finished')
 
-        dataset_id = actor_run['defaultDatasetId']
+        dataset_id = actor_run.default_dataset_id
 
         self.write_output_table(apify_client, dataset_id)
 
@@ -149,7 +149,7 @@ class Component(ComponentBase):
 
         dataset_fields = self.prepare_dataset_fields(dataset_client)
 
-        item_count = dataset['itemCount']
+        item_count = dataset.item_count
         logging.info('Storing %d items from dataset (id: "%s") to CSV output table' % (item_count, dataset_id))
 
         limit = 2_000
