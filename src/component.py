@@ -63,16 +63,16 @@ class Component(ComponentBase):
             raise UserException("Failed to get user information with the provided Apify API Token. Make sure the token is set correctly: %s" % e)
 
         actor_run = actor_client.start(run_input = run_input)
-        if not actor_run:
+        if actor_run is None:
             raise UserException('Received empty run response. If the error keeps happening, contact Apify support: support@apify.com')
-        run_id = actor_run['id']
+        run_id = actor_run.id
         logging.info('Started Google Maps Reviews Scraper run. You can check the progress at https://console.apify.com/view/runs/%s' % run_id)
 
         run_client = apify_client.run(run_id)
         run_client.wait_for_finish()
         logging.info('Run has finished')
 
-        dataset_id = actor_run['defaultDatasetId']
+        dataset_id = actor_run.default_dataset_id
 
         self.write_output_table(apify_client, dataset_id)
 
@@ -126,7 +126,7 @@ class Component(ComponentBase):
     def prepare_dataset_fields(self, dataset_client):
         state = self.get_state_file()
         # we download just one item to get the CSV headers
-        items_csv = dataset_client.download_items(limit=1, item_format='csv').decode('utf-8-sig')
+        items_csv = dataset_client.get_items_as_bytes(limit=1, item_format='csv').decode('utf-8-sig')
         csv_reader = csv.DictReader(io.StringIO(items_csv))
         dataset_fields = state.get('dataset_fields') or []
         for field in csv_reader.fieldnames or []:
@@ -144,12 +144,12 @@ class Component(ComponentBase):
     def write_output_table(self, apify_client: ApifyClient, dataset_id: str):
         dataset_client = apify_client.dataset(dataset_id)
         dataset = dataset_client.get()
-        if not dataset:
+        if dataset is None:
             raise Exception('Dataset "%s" not found, please contact support@apify.com' % dataset_id)
 
         dataset_fields = self.prepare_dataset_fields(dataset_client)
 
-        item_count = dataset['itemCount']
+        item_count = dataset.item_count
         logging.info('Storing %d items from dataset (id: "%s") to CSV output table' % (item_count, dataset_id))
 
         limit = 2_000
@@ -169,7 +169,7 @@ class Component(ComponentBase):
             csv_writer.writeheader()
             for offset in range(0, item_count, limit):
                 # we download items in csv format so that the field flattening is handled for us
-                items_csv = dataset_client.download_items(offset=offset, limit=limit, item_format='csv').decode('utf-8-sig')
+                items_csv = dataset_client.get_items_as_bytes(offset=offset, limit=limit, item_format='csv').decode('utf-8-sig')
                 csv_reader = csv.DictReader(io.StringIO(items_csv))
                 for item in csv_reader:
                     # NOTE: dataset items with `error` are skipped, we only log the `error`
